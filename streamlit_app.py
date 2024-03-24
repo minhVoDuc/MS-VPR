@@ -1,7 +1,7 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
-import time
+from modules.interactive_map import create_map
 
 # Title
 st.title('MS-VPR')
@@ -24,3 +24,15 @@ with tab_abstract:
   # st.write(f"""{content}""")
   st.markdown(f'<div style="text-align: justify;">{content}</div><br>', unsafe_allow_html=True)
   st.image("./static/MultiMixVPR.jpg", caption="Model's Architecture")
+
+# Sec 2. Eval
+
+
+# Sec 3. Interact
+df = pd.read_csv('./static/gps.csv')
+r = create_map(df)
+
+with tab_interact:
+  # df
+  # st.map(data=df, size=1)
+  st.pydeck_chart(r)
