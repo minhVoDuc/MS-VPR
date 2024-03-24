@@ -1,43 +1,29 @@
-import pydeck as pdk
+from streamlit_plotly_mapbox_events import plotly_mapbox_events
+import plotly.express as px
 import pandas as pd
-import os
 
-def convert(x):
-  return str(x)
+def show_map(df):
+  # Create a Plotly Mapbox figure
+  mapbox = px.scatter_mapbox(df, lat="latitude", lon="longitude", 
+                             hover_name="timestamp", 
+                             color_discrete_sequence=["#FF4B4B"], 
+                             zoom=15.5, height=600)
+  mapbox.update_layout(mapbox_style="carto-positron")
+  mapbox.update_layout(margin={"r":0, "t":0, "l":0, "b":0})
+  mapbox.update_layout(
+    hoverlabel=dict(
+      bgcolor="#FF4B4B",
+      font_color="#FAFAFA",
+      font_family="sans-serif"
+    )
+)
 
-def create_map(df):
-  # QUERY_MAP = (
-  #   data_url
-  # )
-  dirs = df['timestamp'].apply(convert)
-  df_transform = pd.DataFrame().assign(dir=dirs, lat=df['latitude'], lng=df['longitude'])
-  layer = pdk.Layer(
-      "ScatterplotLayer",
-      df_transform,
-      get_position=['lng', 'lat'],
-      auto_highlight=True,
-      pickable=True,
-      get_radius=2.5,
-      get_fill_color=[180, 0, 200, 140]
+  # Create an instance of the plotly_mapbox_events component
+  mapbox_events = plotly_mapbox_events(
+      mapbox,
+      click_event=True,
+      # hover_event=True,
+      override_height=600
   )
-  # Set the viewport location
-  view = pdk.ViewState(
-    longitude=-1.2585, latitude=51.759, zoom=15.75, min_zoom=14, max_zoom=20, pitch=40.5, bearing=-27.36
-  )
-  # view = pdk.data_utils.compute_view(df_transform[["lng", "lat"]])
-  # view.zoom = 15.75
-  # view.min_zoom = 14
-  # view.max_zoom = 20
-  # view.pitch = 40.5
-  # view.bearing = -27.36
   
-  # Combined all of it and render a viewport
-  r = pdk.Deck(
-      map_style="mapbox://styles/mapbox/light-v9",
-      layers=[layer],
-      initial_view_state=view,
-      # tooltip={"html": "<img src='../static/query/{dir}.png' width='320' height='240'>"},
-      tooltip={"html": "<b>Query:</b> {dir}.png", "style": {"color": "white"}},
-  )
-  return r
-
+  return mapbox_events

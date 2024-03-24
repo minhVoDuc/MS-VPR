@@ -20,4 +20,5 @@ tqdm==4.64.1
 keras
 # fvcore
 streamlit
-pydeck
+pandas
+streamlit-plotly-mapbox-events
