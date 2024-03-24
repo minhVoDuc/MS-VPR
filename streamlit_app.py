@@ -7,10 +7,11 @@ import plotly.express as px
 from model_utils import calculate_desc, load_model_musc
 import cv2
 
-MODEL_PATH = 'F:/MinhDuc/STUDY/SELF-STUDY/Robotics/VO/web/MS-MixVPR-web/resnet50musc_epoch(72)_step(35697)_R1[0.5717]_R5[0.7312].ckpt'
-QUERY_PATH = 'F:/MinhDuc/STUDY/SELF-STUDY/Robotics/VO/LCD/dataset/2015-02-03-08-45-10/query_web/'
-REF_PATH = 'F:/MinhDuc/STUDY/SELF-STUDY/Robotics/VO/LCD/dataset/2015-07-29-13-09-26_ref/ref/'
-DESC_PATH = 'F:/MinhDuc/STUDY/SELF-STUDY/Robotics/VO/LCD/dataset/2015-07-29-13-09-26_ref/descriptors.pt'
+MODEL_PATH = './static/resnet50musc_epoch(72)_step(35697)_R1[0.5717]_R5[0.7312].ckpt'
+QUERY_PATH = './static/query/'
+REF_PATH = './static/ref/'
+DESC_PATH = './static/descriptors.pt'
+GT_PATH = './static/gt_names.py'
 
 st.set_page_config(layout="wide")
 
@@ -18,7 +19,7 @@ st.set_page_config(layout="wide")
 def load_model():
   return load_model_musc(MODEL_PATH)
 
-ground_truth_names = np.load('./gt_names.npy')
+ground_truth_names = np.load(GT_PATH)
 
 model = load_model()
 
@@ -49,7 +50,7 @@ def show_map(df):
   return mapbox_events
 
 # Title
-st.title('MS-VPR')
+st.title('MS-MixVPR')
 st.markdown("""> **Made by:** Duc Quach-Minh, Minh Vo-Duc  
             **Instructed by:** Mr. Anh Pham-Hoang""")
 
