@@ -1,9 +1,52 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
-from modules.interactive_map import show_map
+from PIL import Image
+from streamlit_plotly_mapbox_events import plotly_mapbox_events
+import plotly.express as px
+from model_utils import calculate_desc, load_model_musc
+import cv2
+
+MODEL_PATH = 'F:/MinhDuc/STUDY/SELF-STUDY/Robotics/VO/web/MS-MixVPR-web/resnet50musc_epoch(72)_step(35697)_R1[0.5717]_R5[0.7312].ckpt'
+QUERY_PATH = 'F:/MinhDuc/STUDY/SELF-STUDY/Robotics/VO/LCD/dataset/2015-02-03-08-45-10/query_web/'
+REF_PATH = 'F:/MinhDuc/STUDY/SELF-STUDY/Robotics/VO/LCD/dataset/2015-07-29-13-09-26_ref/ref/'
+DESC_PATH = 'F:/MinhDuc/STUDY/SELF-STUDY/Robotics/VO/LCD/dataset/2015-07-29-13-09-26_ref/descriptors.pt'
 
 st.set_page_config(layout="wide")
+
+@st.cache_resource
+def load_model():
+  return load_model_musc(MODEL_PATH)
+
+ground_truth_names = np.load('./gt_names.npy')
+
+model = load_model()
+
+def show_map(df):
+  # Create a Plotly Mapbox figure
+  mapbox = px.scatter_mapbox(df, lat="latitude", lon="longitude", 
+                             hover_name="timestamp", 
+                             color_discrete_sequence=["#FF4B4B"], 
+                             zoom=15.5, height=500)
+  mapbox.update_layout(mapbox_style="carto-positron")
+  mapbox.update_layout(margin={"r":0, "t":0, "l":0, "b":0})
+  mapbox.update_layout(
+    hoverlabel=dict(
+      bgcolor="#FF4B4B",
+      font_color="#FAFAFA",
+      font_family="sans-serif"
+    )
+)
+
+  # Create an instance of the plotly_mapbox_events component
+  mapbox_events = plotly_mapbox_events(
+      mapbox,
+      click_event=True,
+      # hover_event=True,
+      override_height=500
+  )
+  
+  return mapbox_events
 
 # Title
 st.title('MS-VPR')
@@ -35,16 +78,48 @@ with tab_abstract:
 df = pd.read_csv('./static/gps.csv')
 
 with tab_interact:
-  col_1, col_2 = st.columns(2)  
+  candidate = None
+  col_1, col_2 = st.columns([3, 1])
+
   with col_1:
     mapbox_events = show_map(df)
-  
+    if st.button("Find match", type="primary"):
+      if len(mapbox_events[0]) != 0:
+        img_name = str(df.loc[mapbox_events[0][0]['pointIndex'], 'timestamp']) + '.png'
+        # get image
+        img_path = f"{QUERY_PATH}{img_name}"
+        query_img = cv2.imread(img_path, 1)
+        candidate = calculate_desc(model, query_img, DESC_PATH)
+
   with col_2:
     # Display the captured events
+    st.text("Query:")
     plot_name_holder_clicked = st.empty()
-    plot_name_holder_clicked.write("Please click a point on map")
     if len(mapbox_events[0]) != 0:
       img_name = str(df.loc[mapbox_events[0][0]['pointIndex'], 'timestamp']) + '.png'
-      plot_name_holder_clicked.write(f"Clicked Point: {img_name}")
+      # plot_name_holder_clicked.write(f"Clicked Point: {img_name}")
       # get image
-      st.image(f"./static/query_map/{img_name}", caption=img_name)
+      img_path = f"{QUERY_PATH}{img_name}"
+      query_img = Image.open(img_path)
+      resized_query = query_img.resize((int(640/2), int(480/2)))
+      st.image(resized_query)
+    else:
+      plot_name_holder_clicked.write("Please click a point on map")
+    if candidate == None:
+      st.text("Result:")
+    else:
+      st.text("Result:")
+      ref_path = f"{REF_PATH}{ground_truth_names[candidate.item()]}.png"
+      ref_img = Image.open(ref_path)
+      resized_ref = ref_img.resize((int(640/2), int(480/2)))
+      st.image(resized_ref)
+      
+with tab_demo:
+  col_1, col_2 = st.columns(2)
+  with col_1:
+    st.text("Normal loop closure detection:")
+    st.video('https://youtu.be/jzUvipfSQOw')
+
+  with col_2:
+    st.text("Long-term loop closure detection:")
+    st.video("https://youtu.be/pJdo2Fkpw04")
