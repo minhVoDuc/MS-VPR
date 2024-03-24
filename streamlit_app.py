@@ -105,7 +105,7 @@ with tab_interact:
       resized_query = query_img.resize((int(640/2), int(480/2)))
       st.image(resized_query)
     else:
-      plot_name_holder_clicked.write("Please click a point on map")
+      plot_name_holder_clicked.write("Please click on a point on the map")
     if candidate == None:
       st.text("Result:")
     else:
