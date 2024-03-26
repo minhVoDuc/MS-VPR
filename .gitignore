@@ -168,3 +168,4 @@ cython_debug/
 modules/__pycache__*
 MSMixVPR/models/__pycache__*
 documents
+*resnet*
