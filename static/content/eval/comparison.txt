@@ -1,0 +1,2 @@
+This combination of competitive speed and strong retrieval accuracy across different scenarios
+makes MS-MixVPR practical for real-world applications where both efficiency and accuracy are crucial.

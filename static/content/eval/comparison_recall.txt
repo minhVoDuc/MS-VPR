@@ -1,0 +1,5 @@
+Performance comparison between MS-MixVPR and several approaches (MixVPR, CosPlace, Conv-AP, NetVLAD) in
+terms of RecallRate@N across four datasets mentioned above. <br>
+We use the checkpoint versions created by the authors with ResNet50 as backbone for all approaches, except
+for NetVLAD, which we use the version that was trained using VGG16. <br>
+Overall, across all datasets, MS-MixVPR consistently achieves RecallRate@N scores within the <strong>top two<strong> performers.

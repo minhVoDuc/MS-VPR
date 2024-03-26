@@ -1,0 +1,6 @@
+﻿Method,Dimension,Retrieval time
+NetVLAD,32768,50.1
+Conv-AP,8192,13.9
+CosPlace,2048,4.7
+MixVPR,4096,7.5
+MS-MixVPR,4096,7.5

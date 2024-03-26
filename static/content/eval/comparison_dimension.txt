@@ -1,0 +1,4 @@
+The influence of the descriptor dimension on the performance of the VPR system
+is evaluated below. <br>
+Overall, increasing dimension gives better retrieval results. 
+However, larger descriptors also mean the system takes longer to process an image.

@@ -1,0 +1,5 @@
+Overall, MS-MixVPR can effectively retrieve images with different
+seasonal changes, weather conditions, and viewpoints. It is also robust to illumination changes and dynamic objects and can handle perceptual aliasing and repetitive
+structures. In contrast, other methods often fail to capture these variations and produce less relevant results. <br>
+There are a few cases where all methods fail to retrieve relevant images. These cases typically involve non-discriminative content or extreme
+environments for detection.

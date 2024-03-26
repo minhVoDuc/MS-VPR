@@ -1,0 +1,5 @@
+In our proposed MS-MixVPR, the number of Feature-Mixer blocks L and the MLP
+ratio, which scales the number of output features in the second Linear layer within each
+block, play crucial roles in image retrieval accuracy. <br>
+Overall, although over-parameterization can lead to degradation in the effectiveness of the VPR system, 
+increasing these hyperparameters generally enhances performance in terms of recall rates.

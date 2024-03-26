@@ -1,0 +1,6 @@
+The performance of various VPR techniques in terms of image
+retrieval time (t<sub>R</sub>) on the Nordland dataset. <br>
+As can be seen, higher descriptor dimensions generally lead to increased retrieval times. CosPlace ranks first with a retrieval
+time of <strong>4.7 ms</strong>, thanks to its low 2048-dimensional descriptor. <br>
+With a competitive retrieval time of <strong>7.5 ms</strong>, MS-MixVPR ranks second, matches the speed of MixVPR,
+and significantly outperforms NetVLAD (50.1 ms) and Conv-AP (13.9 ms).
