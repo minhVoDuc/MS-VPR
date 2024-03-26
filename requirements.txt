@@ -22,3 +22,4 @@ keras
 streamlit
 pandas
 streamlit-plotly-mapbox-events
+opencv-python

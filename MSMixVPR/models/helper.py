@@ -1,9 +1,9 @@
 import numpy as np
 import sys
-sys.path.append('..')
-sys.path.insert(0, 'F:/MinhDuc/STUDY/SELF-STUDY/Robotics/VO/LCD/MSMixVPR')
-from models import aggregators
-from models import backbones
+sys.path.append('../../')
+sys.path.insert(0, '/MSMixVPR')
+from . import aggregators
+from . import backbones
 
 def get_backbone(backbone_arch='resnet50',
                  pretrained=True,
