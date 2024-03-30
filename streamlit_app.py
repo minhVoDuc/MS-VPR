@@ -29,7 +29,7 @@ ground_truth_names = np.load(GT_PATH)
 model = load_model()
 
 # Title
-st.title('MS-MixVPR')
+st.title('MS-MixVPR: Multi-scale Feature Mixing Approach for Long-term Place Recognition')
 st.markdown("""> **Made by:** Duc Quach-Minh, Minh Vo-Duc  
             **Instructed by:** Mr. Anh Pham-Hoang""")
 # if st.button("Refresh"):
